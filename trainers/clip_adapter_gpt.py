@@ -209,6 +209,10 @@ class CustomCLIP(nn.Module):
 
         if cfg.MODEL.BACKBONE.NAME == 'RN50':
             model_dim = 1024
+            
+        elif cfg.MODEL.BACKBONE.NAME.lower() == 'vit-l/14':
+            self.input_dim = 768
+            
         else:
             model_dim = 512
 
