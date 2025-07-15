@@ -295,6 +295,9 @@ class CustomCLIP(nn.Module):
             
     def forward(self, image):
 
+        device = image.device
+        self.adapter = self.adapter.to(device)
+        
         image_features = self.image_encoder(image.type(self.dtype))
 
 
