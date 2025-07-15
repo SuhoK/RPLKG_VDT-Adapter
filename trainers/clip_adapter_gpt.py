@@ -65,7 +65,26 @@ def load_clip_to_cpu(cfg):
         state_dict = torch.load(model_path, map_location='cpu')
     
     model = clip.build_model(state_dict or model.state_dict())
+    #####  positional embedding resize #####
+    if 'vit' in backbone_name.lower():
+        try:
+            patch_size = model.visual.patch_size
+        except AttributeError:
+            try:
+                patch_size = model.visual.patch_embedding.patch_size
+            except AttributeError:
+                patch_size = model.visual.conv1.kernel_size[0]  # fallback
+                
+        new_size = cfg.INPUT.SIZE[0]
+        new_grid_size = new_size // patch_size
 
+        pos_embed = model.visual.positional_embedding
+        if pos_embed.ndim == 2:
+            pos_embed = pos_embed.unsqueeze(0)
+
+        pos_embed = resize_pos_embed(pos_embed, new_grid_size)
+        model.visual.positional_embedding = nn.Parameter(pos_embed)
+    # ================================ #
     return model
 
 
