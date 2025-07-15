@@ -51,6 +51,27 @@ gpt4_filename = {
     "ImageNet": "imagenet.pt",
 }
 
+##### resize ######
+def resize_pos_embed(pos_embed, new_grid_size):
+    """
+    Resize positional embeddings by interpolating the grid part.
+    """
+    if pos_embed.ndim == 2:
+        pos_embed = pos_embed.unsqueeze(0)
+
+    cls_pos = pos_embed[:, :1, :]
+    grid_pos = pos_embed[:, 1:, :]  # shape: (1, N, D)
+
+    num_patches = grid_pos.shape[1]
+    old_grid_size = int(num_patches ** 0.5)
+    assert old_grid_size * old_grid_size == num_patches, "Grid is not square."
+
+    grid_pos = grid_pos.reshape(1, old_grid_size, old_grid_size, -1).permute(0, 3, 1, 2)
+    grid_pos = F.interpolate(grid_pos, size=(new_grid_size, new_grid_size), mode='bicubic', align_corners=False)
+    grid_pos = grid_pos.permute(0, 2, 3, 1).reshape(1, new_grid_size * new_grid_size, -1)
+
+    return torch.cat([cls_pos, grid_pos], dim=1)
+
 def load_clip_to_cpu(cfg):
     backbone_name = cfg.MODEL.BACKBONE.NAME
     url = clip._MODELS[backbone_name]
