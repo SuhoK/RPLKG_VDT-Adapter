@@ -1,6 +1,6 @@
 DATASET:
   NAME: "OxfordPets"
-  NUM_SHOTS: 8
+  NUM_SHOTS: 16
 
 MODEL:
   BACKBONE:
