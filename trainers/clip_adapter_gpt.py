@@ -290,7 +290,11 @@ class CustomCLIP(nn.Module):
                     current_text_features = clip_model.encode_text(current_sentences)
                     attr.append(current_text_features)
             attr = torch.stack(attr)
-            self.register_buffer('attr', attr.cpu()) #self.attr = attr
+            #self.register_buffer('attr', attr.cpu()) #self.attr = attr
+            if hasattr(self, 'attr'):
+                delattr(self, 'attr')
+            self.register_buffer('attr', attr.cpu())
+
         self.we_adapter = we_adapter
 
 
