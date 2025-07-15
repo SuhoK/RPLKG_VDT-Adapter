@@ -1,0 +1,352 @@
+{
+  "Abyssinian": [
+    "Abyssinian_120.jpg",
+    "Abyssinian_21.jpg",
+    "Abyssinian_191.jpg",
+    "Abyssinian_22.jpg",
+    "Abyssinian_79.jpg",
+    "Abyssinian_207.jpg",
+    "Abyssinian_151.jpg",
+    "Abyssinian_213.jpg"
+  ],
+  "Bengal": [
+    "Bengal_17.jpg",
+    "Bengal_161.jpg",
+    "Bengal_79.jpg",
+    "Bengal_201.jpg",
+    "Bengal_62.jpg",
+    "Bengal_33.jpg",
+    "Bengal_152.jpg",
+    "Bengal_124.jpg"
+  ],
+  "Birman": [
+    "Birman_155.jpg",
+    "Birman_104.jpg",
+    "Birman_37.jpg",
+    "Birman_102.jpg",
+    "Birman_63.jpg",
+    "Birman_121.jpg",
+    "Birman_176.jpg",
+    "Birman_184.jpg"
+  ],
+  "Bombay": [
+    "Bombay_112.jpg",
+    "Bombay_156.jpg",
+    "Bombay_48.jpg",
+    "Bombay_27.jpg",
+    "Bombay_31.jpg",
+    "Bombay_188.jpg",
+    "Bombay_146.jpg",
+    "Bombay_83.jpg"
+  ],
+  "British": [
+    "British_Shorthair_79.jpg",
+    "British_Shorthair_15.jpg",
+    "British_Shorthair_50.jpg",
+    "British_Shorthair_51.jpg",
+    "British_Shorthair_129.jpg",
+    "British_Shorthair_44.jpg",
+    "British_Shorthair_97.jpg",
+    "British_Shorthair_141.jpg"
+  ],
+  "Egyptian": [
+    "Egyptian_Mau_132.jpg",
+    "Egyptian_Mau_22.jpg",
+    "Egyptian_Mau_189.jpg",
+    "Egyptian_Mau_175.jpg",
+    "Egyptian_Mau_201.jpg",
+    "Egyptian_Mau_188.jpg",
+    "Egyptian_Mau_75.jpg",
+    "Egyptian_Mau_100.jpg"
+  ],
+  "Maine": [
+    "Maine_Coon_182.jpg",
+    "Maine_Coon_92.jpg",
+    "Maine_Coon_192.jpg",
+    "Maine_Coon_49.jpg",
+    "Maine_Coon_140.jpg",
+    "Maine_Coon_55.jpg",
+    "Maine_Coon_100.jpg",
+    "Maine_Coon_217.jpg"
+  ],
+  "Persian": [
+    "Persian_202.jpg",
+    "Persian_140.jpg",
+    "Persian_169.jpg",
+    "Persian_6.jpg",
+    "Persian_266.jpg",
+    "Persian_67.jpg",
+    "Persian_269.jpg",
+    "Persian_165.jpg"
+  ],
+  "Ragdoll": [
+    "Ragdoll_125.jpg",
+    "Ragdoll_245.jpg",
+    "Ragdoll_135.jpg",
+    "Ragdoll_205.jpg",
+    "Ragdoll_163.jpg",
+    "Ragdoll_142.jpg",
+    "Ragdoll_7.jpg",
+    "Ragdoll_59.jpg"
+  ],
+  "Russian": [
+    "Russian_Blue_81.jpg",
+    "Russian_Blue_48.jpg",
+    "Russian_Blue_130.jpg",
+    "Russian_Blue_171.jpg",
+    "Russian_Blue_125.jpg",
+    "Russian_Blue_199.jpg",
+    "Russian_Blue_83.jpg",
+    "Russian_Blue_64.jpg"
+  ],
+  "Siamese": [
+    "Siamese_92.jpg",
+    "Siamese_113.jpg",
+    "Siamese_120.jpg",
+    "Siamese_24.jpg",
+    "Siamese_208.jpg",
+    "Siamese_225.jpg",
+    "Siamese_210.jpg",
+    "Siamese_184.jpg"
+  ],
+  "Sphynx": [
+    "Sphynx_246.jpg",
+    "Sphynx_178.jpg",
+    "Sphynx_125.jpg",
+    "Sphynx_5.jpg",
+    "Sphynx_80.jpg",
+    "Sphynx_222.jpg",
+    "Sphynx_146.jpg",
+    "Sphynx_108.jpg"
+  ],
+  "american": [
+    "american_pit_bull_terrier_58.jpg",
+    "american_pit_bull_terrier_175.jpg",
+    "american_pit_bull_terrier_8.jpg",
+    "american_pit_bull_terrier_36.jpg",
+    "american_pit_bull_terrier_15.jpg",
+    "american_bulldog_38.jpg",
+    "american_pit_bull_terrier_29.jpg",
+    "american_bulldog_141.jpg"
+  ],
+  "basset": [
+    "basset_hound_148.jpg",
+    "basset_hound_9.jpg",
+    "basset_hound_40.jpg",
+    "basset_hound_87.jpg",
+    "basset_hound_15.jpg",
+    "basset_hound_173.jpg",
+    "basset_hound_113.jpg",
+    "basset_hound_136.jpg"
+  ],
+  "beagle": [
+    "beagle_142.jpg",
+    "beagle_33.jpg",
+    "beagle_143.jpg",
+    "beagle_193.jpg",
+    "beagle_30.jpg",
+    "beagle_110.jpg",
+    "beagle_200.jpg",
+    "beagle_154.jpg"
+  ],
+  "boxer": [
+    "boxer_122.jpg",
+    "boxer_10.jpg",
+    "boxer_49.jpg",
+    "boxer_97.jpg",
+    "boxer_92.jpg",
+    "boxer_154.jpg",
+    "boxer_151.jpg",
+    "boxer_75.jpg"
+  ],
+  "chihuahua": [
+    "chihuahua_31.jpg",
+    "chihuahua_168.jpg",
+    "chihuahua_44.jpg",
+    "chihuahua_169.jpg",
+    "chihuahua_12.jpg",
+    "chihuahua_159.jpg",
+    "chihuahua_129.jpg",
+    "chihuahua_85.jpg"
+  ],
+  "english": [
+    "english_cocker_spaniel_21.jpg",
+    "english_cocker_spaniel_6.jpg",
+    "english_cocker_spaniel_185.jpg",
+    "english_cocker_spaniel_146.jpg",
+    "english_cocker_spaniel_148.jpg",
+    "english_cocker_spaniel_120.jpg",
+    "english_setter_48.jpg",
+    "english_setter_190.jpg"
+  ],
+  "german": [
+    "german_shorthaired_193.jpg",
+    "german_shorthaired_137.jpg",
+    "german_shorthaired_185.jpg",
+    "german_shorthaired_157.jpg",
+    "german_shorthaired_184.jpg",
+    "german_shorthaired_39.jpg",
+    "german_shorthaired_106.jpg",
+    "german_shorthaired_179.jpg"
+  ],
+  "great": [
+    "great_pyrenees_188.jpg",
+    "great_pyrenees_38.jpg",
+    "great_pyrenees_116.jpg",
+    "great_pyrenees_34.jpg",
+    "great_pyrenees_117.jpg",
+    "great_pyrenees_161.jpg",
+    "great_pyrenees_60.jpg",
+    "great_pyrenees_35.jpg"
+  ],
+  "havanese": [
+    "havanese_158.jpg",
+    "havanese_174.jpg",
+    "havanese_77.jpg",
+    "havanese_48.jpg",
+    "havanese_137.jpg",
+    "havanese_109.jpg",
+    "havanese_57.jpg",
+    "havanese_18.jpg"
+  ],
+  "japanese": [
+    "japanese_chin_157.jpg",
+    "japanese_chin_93.jpg",
+    "japanese_chin_87.jpg",
+    "japanese_chin_12.jpg",
+    "japanese_chin_122.jpg",
+    "japanese_chin_160.jpg",
+    "japanese_chin_8.jpg",
+    "japanese_chin_16.jpg"
+  ],
+  "keeshond": [
+    "keeshond_26.jpg",
+    "keeshond_93.jpg",
+    "keeshond_162.jpg",
+    "keeshond_151.jpg",
+    "keeshond_195.jpg",
+    "keeshond_1.jpg",
+    "keeshond_89.jpg",
+    "keeshond_170.jpg"
+  ],
+  "leonberger": [
+    "leonberger_30.jpg",
+    "leonberger_99.jpg",
+    "leonberger_175.jpg",
+    "leonberger_53.jpg",
+    "leonberger_52.jpg",
+    "leonberger_142.jpg",
+    "leonberger_170.jpg",
+    "leonberger_119.jpg"
+  ],
+  "miniature": [
+    "miniature_pinscher_187.jpg",
+    "miniature_pinscher_111.jpg",
+    "miniature_pinscher_87.jpg",
+    "miniature_pinscher_84.jpg",
+    "miniature_pinscher_175.jpg",
+    "miniature_pinscher_166.jpg",
+    "miniature_pinscher_102.jpg",
+    "miniature_pinscher_127.jpg"
+  ],
+  "newfoundland": [
+    "newfoundland_121.jpg",
+    "newfoundland_197.jpg",
+    "newfoundland_7.jpg",
+    "newfoundland_86.jpg",
+    "newfoundland_184.jpg",
+    "newfoundland_118.jpg",
+    "newfoundland_70.jpg",
+    "newfoundland_64.jpg"
+  ],
+  "pomeranian": [
+    "pomeranian_124.jpg",
+    "pomeranian_47.jpg",
+    "pomeranian_83.jpg",
+    "pomeranian_160.jpg",
+    "pomeranian_90.jpg",
+    "pomeranian_154.jpg",
+    "pomeranian_49.jpg",
+    "pomeranian_157.jpg"
+  ],
+  "pug": [
+    "pug_37.jpg",
+    "pug_86.jpg",
+    "pug_7.jpg",
+    "pug_8.jpg",
+    "pug_146.jpg",
+    "pug_172.jpg",
+    "pug_105.jpg",
+    "pug_42.jpg"
+  ],
+  "saint": [
+    "saint_bernard_118.jpg",
+    "saint_bernard_189.jpg",
+    "saint_bernard_140.jpg",
+    "saint_bernard_65.jpg",
+    "saint_bernard_64.jpg",
+    "saint_bernard_137.jpg",
+    "saint_bernard_75.jpg",
+    "saint_bernard_20.jpg"
+  ],
+  "samoyed": [
+    "samoyed_87.jpg",
+    "samoyed_158.jpg",
+    "samoyed_41.jpg",
+    "samoyed_178.jpg",
+    "samoyed_78.jpg",
+    "samoyed_119.jpg",
+    "samoyed_136.jpg",
+    "samoyed_46.jpg"
+  ],
+  "scottish": [
+    "scottish_terrier_162.jpg",
+    "scottish_terrier_21.jpg",
+    "scottish_terrier_48.jpg",
+    "scottish_terrier_190.jpg",
+    "scottish_terrier_3.jpg",
+    "scottish_terrier_66.jpg",
+    "scottish_terrier_121.jpg",
+    "scottish_terrier_62.jpg"
+  ],
+  "shiba": [
+    "shiba_inu_7.jpg",
+    "shiba_inu_64.jpg",
+    "shiba_inu_113.jpg",
+    "shiba_inu_186.jpg",
+    "shiba_inu_105.jpg",
+    "shiba_inu_116.jpg",
+    "shiba_inu_102.jpg",
+    "shiba_inu_50.jpg"
+  ],
+  "staffordshire": [
+    "staffordshire_bull_terrier_169.jpg",
+    "staffordshire_bull_terrier_32.jpg",
+    "staffordshire_bull_terrier_26.jpg",
+    "staffordshire_bull_terrier_48.jpg",
+    "staffordshire_bull_terrier_66.jpg",
+    "staffordshire_bull_terrier_201.jpg",
+    "staffordshire_bull_terrier_46.jpg",
+    "staffordshire_bull_terrier_190.jpg"
+  ],
+  "wheaten": [
+    "wheaten_terrier_158.jpg",
+    "wheaten_terrier_65.jpg",
+    "wheaten_terrier_37.jpg",
+    "wheaten_terrier_151.jpg",
+    "wheaten_terrier_41.jpg",
+    "wheaten_terrier_179.jpg",
+    "wheaten_terrier_72.jpg",
+    "wheaten_terrier_36.jpg"
+  ],
+  "yorkshire": [
+    "yorkshire_terrier_4.jpg",
+    "yorkshire_terrier_30.jpg",
+    "yorkshire_terrier_135.jpg",
+    "yorkshire_terrier_191.jpg",
+    "yorkshire_terrier_22.jpg",
+    "yorkshire_terrier_165.jpg",
+    "yorkshire_terrier_80.jpg",
+    "yorkshire_terrier_113.jpg"
+  ]
+}
