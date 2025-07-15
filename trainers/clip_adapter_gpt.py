@@ -207,6 +207,8 @@ class SelfAttnAdapter(nn.Module):
             c_in//reduction, c_in//reduction, dropout=0.5, ratio=ratio) #.cuda()
 
     def forward(self, x):
+        device = x.device
+        self.attn.to(device)
         x = self.attn(x, x, x)
         return x
 
