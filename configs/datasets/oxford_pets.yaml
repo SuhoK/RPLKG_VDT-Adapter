@@ -1,2 +1,14 @@
 DATASET:
   NAME: "OxfordPets"
+  NUM_SHOTS: 8
+
+MODEL:
+  BACKBONE:
+    NAME: "ViT-L/14"
+    PRETRAINED: True
+
+INPUT:
+  SIZE: (224, 224)  # ViT-L/14 input
+
+TRAINER:
+  NAME: CLIP_Adapter_gpt
