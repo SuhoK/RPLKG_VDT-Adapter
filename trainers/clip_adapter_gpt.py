@@ -243,7 +243,7 @@ class CustomCLIP(nn.Module):
         self.logit_scale = clip_model.logit_scale
         self.dtype = clip_model.dtype
         self.classnames = classnames
-        model_dim = text_features.size(-1) #clip_model.visual.transformer.width
+        model_dim = model_dim = clip_model.text_projection.shape[1] #clip_model.visual.transformer.width
 
         we_adapter = cfg.TRAINER.CLIP_ADAPTER.WORD_ADAPTER_TYPE
         self.ratio = cfg.TRAINER.CLIP_ADAPTER.RATIO
