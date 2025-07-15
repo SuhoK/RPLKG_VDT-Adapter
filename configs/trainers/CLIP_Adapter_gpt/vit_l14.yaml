@@ -6,7 +6,7 @@ DATALOADER:
   NUM_WORKERS: 8
 
 INPUT:
-  SIZE: (336, 336)
+  SIZE: (224, 224)
   INTERPOLATION: "bicubic"
   PIXEL_MEAN: [0.48145466, 0.4578275, 0.40821073]
   PIXEL_STD: [0.26862954, 0.26130258, 0.27577711]
@@ -17,14 +17,15 @@ OPTIM:
   LR: 0.01
   #LR: 0.1
   #MAX_EPOCH: 200
-  MAX_EPOCH: 100
-  LR_SCHEDULER: "cosine"
-  WARMUP_EPOCH: 1
-  WARMUP_TYPE: "constant"
-  WARMUP_CONS_LR: 1e-5
+  MAX_EPOCH: 70
+  LR_SCHEDULER: "cosine" #"single_step" #"cosine"
+  WARMUP_EPOCH: 5 #1
+  WARMUP_TYPE: "linear" #"constant"
+  WARMUP_CONS_LR: 1e-4 #1e-4 #1e-5
+  WEIGHT_DECAY: 0.01
 
 TRAIN:
-  PRINT_FREQ: 5
+  PRINT_FREQ: 1
 
 MODEL:
   BACKBONE:
@@ -32,3 +33,8 @@ MODEL:
 
 TEST:
   PER_CLASS_RESULT: False
+
+TRAINER:
+  CLIP_ADAPTER:
+    RATIO: 0.5 #0.2
+    WORD_ADAPTER_TYPE: "self_attn" #"linear_residual" #"self_attn" #"linear"
