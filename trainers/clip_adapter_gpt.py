@@ -204,7 +204,7 @@ class SelfAttnAdapter(nn.Module):
     def __init__(self, c_in, reduction=4, ratio=0.5):
         super(SelfAttnAdapter, self).__init__()
         self.attn = MultiHeadAttention(1, c_in, 
-            c_in//reduction, c_in//reduction, dropout=0.5, ratio=ratio).cuda()
+            c_in//reduction, c_in//reduction, dropout=0.5, ratio=ratio) #.cuda()
 
     def forward(self, x):
         x = self.attn(x, x, x)
