@@ -298,12 +298,12 @@ class CustomCLIP(nn.Module):
     def forward(self, image):
 
         device = image.device
-        self.adapter = self.adapter.to(device)
         
         image_features = self.image_encoder(image.type(self.dtype))
 
+        text_features = self.attr.to(device)
 
-        text_features = self.attr
+        #text_features = self.attr
 
         if self.we_adapter == 'linear':
             text_features = text_features.mean(dim=1)
