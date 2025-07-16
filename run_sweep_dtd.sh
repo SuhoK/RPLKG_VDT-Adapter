@@ -16,36 +16,37 @@ gpu_id=${GPUS[$((job_idx % NUM_GPUS))]}
 # Define parameter combinations per shot
 declare -A SWEEP_PARAMS
 
-# 1 shot (2 combinations)
-SWEEP_PARAMS[1]="cosine 3 5e-5 0.5 linear_residual
-cosine 5 1e-4 0.3 linear_residual"
+# === 1-shot === (간단하고 안정적으로)
+SWEEP_PARAMS[1]="cosine 3 1e-5 0.2 linear
+cosine 5 1e-5 0.3 linear_residual
+cosine 5 5e-5 0.3 self_attn"
 
-
-# 2 shot (4 combinations)
-SWEEP_PARAMS[2]="cosine 5 5e-5 0.5 linear_residual
-cosine 7 1e-4 0.4 self_attn
-cosine 5 1e-4 0.6 linear_residual"
-
-
-# 4 shot (8 combinations)
-SWEEP_PARAMS[4]="cosine 7 1e-4 0.5 linear_residual
-cosine 10 1e-4 0.6 self_attn
+# === 2-shot ===
+SWEEP_PARAMS[2]="cosine 5 1e-5 0.3 linear
+cosine 5 5e-5 0.3 self_attn
 cosine 7 5e-5 0.4 linear_residual
-cosine 7 1e-4 0.7 self_attn"
+cosine 7 1e-4 0.4 linear_residual"
 
+# === 4-shot ===
+SWEEP_PARAMS[4]="cosine 5 1e-4 0.4 linear
+cosine 7 1e-4 0.5 linear
+cosine 7 1e-4 0.5 linear_residual
+cosine 7 5e-5 0.5 self_attn
+cosine 10 1e-4 0.4 self_attn"
 
-# 8 shot (8 combinations)
-SWEEP_PARAMS[8]="cosine 7 1e-4 0.5 linear_residual
+# === 8-shot ===
+SWEEP_PARAMS[8]="cosine 7 1e-4 0.5 linear
+cosine 10 1e-4 0.5 linear_residual
+cosine 10 5e-5 0.6 self_attn
+cosine 10 1e-4 0.6 self_attn"
+
+# === 16-shot ===
+SWEEP_PARAMS[16]="cosine 10 5e-5 0.6 linear_residual
 cosine 10 1e-4 0.6 linear_residual
-cosine 10 5e-5 0.7 self_attn
-cosine 7 1e-4 0.6 self_attn"
+cosine 15 1e-4 0.7 self_attn
+cosine 15 5e-5 0.7 self_attn
+cosine 15 5e-5 0.6 linear"
 
-# 16 shot (16 combinations)
-SWEEP_PARAMS[16]="cosine 10 1e-4 0.5 linear_residual
-cosine 15 1e-4 0.6 self_attn
-cosine 15 5e-5 0.7 linear_residual
-cosine 12 1e-4 0.6 self_attn
-cosine 10 1e-4 0.4 linear_residual"
 
 
 # === Sweep loop ===
