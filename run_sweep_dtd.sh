@@ -10,7 +10,8 @@ SEED=1
 # GPU list
 GPUS=(0 1 2 3)
 NUM_GPUS=${#GPUS[@]}
-job_idx=0
+
+gpu_id=${GPUS[$((job_idx % NUM_GPUS))]}
 
 # Define parameter combinations per shot
 declare -A SWEEP_PARAMS
