@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # === Editable Configurations ===
-DATA="/home/shkang/VDT_Project/data/dtd/dtd"
+DATA="/home/shkang/VDT_Project/data/dtd"
 CFG="vit_l14"
 TRAINER="CLIP_Adapter_gpt"
 DATASET="dtd"
@@ -10,7 +10,8 @@ SEED=1
 # GPU list
 GPUS=(0 1 2 3)
 NUM_GPUS=${#GPUS[@]}
-job_idx=0
+gpu_id=${GPUS[$((job_idx % NUM_GPUS))]}
+
 
 # Define parameter combinations per shot
 declare -A SWEEP_PARAMS
@@ -83,12 +84,12 @@ do
       --dataset-config-file configs/datasets/${DATASET}.yaml \
       --config-file configs/trainers/${TRAINER}/${CFG}.yaml \
       --output-dir ${OUTDIR} \
-      OPTIM.LR_SCHEDULER ${scheduler} \
-      OPTIM.WARMUP_EPOCH ${warmup} \
-      OPTIM.WARMUP_CONS_LR ${cons_lr} \
-      TRAINER.CLIP_ADAPTER.RATIO ${ratio} \
-      TRAINER.CLIP_ADAPTER.WORD_ADAPTER_TYPE ${adapter} \
-      DATASET.NUM_SHOTS ${SHOTS} \
+	OPTIM.LR_SCHEDULER ${scheduler} \
+      	OPTIM.WARMUP_EPOCH ${warmup} \
+      	OPTIM.WARMUP_CONS_LR ${cons_lr} \
+      	TRAINER.CLIP_ADAPTER.RATIO ${ratio} \
+      	TRAINER.CLIP_ADAPTER.WORD_ADAPTER_TYPE ${adapter} \
+      	DATASET.NUM_SHOTS ${SHOTS} \
       > ${OUTDIR}/log.txt 2>&1 &
 
     ((job_idx++))
