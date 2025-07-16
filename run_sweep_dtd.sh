@@ -68,14 +68,6 @@ do
       --dataset-config-file configs/datasets/${DATASET}.yaml \
       --config-file configs/trainers/${TRAINER}/${CFG}.yaml \
       --output-dir ${OUTDIR} \
-<<<<<<< HEAD
-	OPTIM.LR_SCHEDULER ${scheduler} \
-      	OPTIM.WARMUP_EPOCH ${warmup} \
-      	OPTIM.WARMUP_CONS_LR ${cons_lr} \
-      	TRAINER.CLIP_ADAPTER.RATIO ${ratio} \
-      	TRAINER.CLIP_ADAPTER.WORD_ADAPTER_TYPE ${adapter} \
-      	DATASET.NUM_SHOTS ${SHOTS} \
-=======
       --optim adam \
       OPTIM.LR_SCHEDULER ${scheduler} \
       OPTIM.WARMUP_EPOCH ${warmup} \
@@ -83,7 +75,6 @@ do
       TRAINER.CLIP_ADAPTER.RATIO ${ratio} \
       TRAINER.CLIP_ADAPTER.WORD_ADAPTER_TYPE ${adapter} \
       DATASET.NUM_SHOTS ${SHOTS} \
->>>>>>> 4a63d2db51e550a1030d26e3a4717f713c70b22e
       > ${OUTDIR}/log.txt 2>&1 &
 
     ((job_idx++))
