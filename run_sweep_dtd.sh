@@ -68,7 +68,7 @@ do
       --dataset-config-file configs/datasets/${DATASET}.yaml \
       --config-file configs/trainers/${TRAINER}/${CFG}.yaml \
       --output-dir ${OUTDIR} \
-      --optim adam \
+      OPTIM.NAME adam \
       OPTIM.LR_SCHEDULER ${scheduler} \
       OPTIM.WARMUP_EPOCH ${warmup} \
       OPTIM.WARMUP_CONS_LR ${cons_lr} \
