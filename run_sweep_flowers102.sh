@@ -4,7 +4,7 @@
 DATA="/home/shkang/VDT_Project/data/flowers102"
 CFG="vit_l14"
 TRAINER="CLIP_Adapter_gpt"
-DATASET="dtd"
+DATASET="flowers102"
 SEED=1
 TOPK=5
 
