@@ -36,13 +36,21 @@ cosine 10 1e-4 0.4 self_attn"
 
 # === 8-shot ===
 SWEEP_PARAMS[8]="cosine 7 1e-4 0.5 linear
+cosine 7 1e-4 0.5 linear_residual
+cosine 7 1e-4 0.6 linear_residual
+cosine 7 1e-5 0.5 linear_residual
+cosine 7 1e-5 0.6 linear_residual
 cosine 10 1e-4 0.5 linear_residual
 cosine 10 5e-5 0.6 self_attn
 cosine 10 1e-4 0.6 self_attn"
 
 # === 16-shot ===
 SWEEP_PARAMS[16]="cosine 10 5e-5 0.6 linear_residual
-cosine 10 1e-4 0.6 linear_residual
+cosine 7 1e-4 0.5 linear_residual
+cosine 7 1e-4 0.6 linear_residual
+cosine 7 1e-5 0.5 linear_residual
+cosine 7 1e-5 0.6 linear_residual
+cosine 10 5e-5 0.6 linear_residual
 cosine 15 1e-4 0.7 self_attn
 cosine 15 5e-5 0.7 self_attn
 cosine 15 5e-5 0.6 linear"
