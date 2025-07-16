@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # === Editable Configurations ===
-DATA="/home/shkang/VDT_Project/data/dtd"
+DATA="/home/shkang/VDT_Project/data/flowers102"
 CFG="vit_l14"
 TRAINER="CLIP_Adapter_gpt"
 DATASET="dtd"
