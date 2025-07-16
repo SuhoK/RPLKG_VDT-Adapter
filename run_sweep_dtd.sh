@@ -83,12 +83,13 @@ do
       --dataset-config-file configs/datasets/${DATASET}.yaml \
       --config-file configs/trainers/${TRAINER}/${CFG}.yaml \
       --output-dir ${OUTDIR} \
-      OPTIM.LR_SCHEDULER ${scheduler} \
-      OPTIM.WARMUP_EPOCH ${warmup} \
-      OPTIM.WARMUP_CONS_LR ${cons_lr} \
-      TRAINER.CLIP_ADAPTER.RATIO ${ratio} \
-      TRAINER.CLIP_ADAPTER.WORD_ADAPTER_TYPE ${adapter} \
-      DATASET.NUM_SHOTS ${SHOTS} \
+      --opts \
+        OPTIM.LR_SCHEDULER ${scheduler} \
+        OPTIM.WARMUP_EPOCH ${warmup} \
+        OPTIM.WARMUP_CONS_LR ${cons_lr} \
+        TRAINER.CLIP_ADAPTER.RATIO ${ratio} \
+        TRAINER.CLIP_ADAPTER.WORD_ADAPTER_TYPE ${adapter} \
+        DATASET.NUM_SHOTS ${SHOTS} \
       > ${OUTDIR}/log.txt 2>&1 &
 
     ((job_idx++))
