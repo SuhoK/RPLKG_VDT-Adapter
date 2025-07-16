@@ -56,7 +56,7 @@ class OxfordFlowers(DatasetBase):
 
     def read_data(self):
         tracker = defaultdict(list)
-        label_file = loadmat(self.label_file)["labels"][0]
+        label_file = loadmat(self.label_file, , appendmat=False)["labels"][0]
         for i, label in enumerate(label_file):
             imname = f"image_{str(i + 1).zfill(5)}.jpg"
             impath = os.path.join(self.image_dir, imname)
