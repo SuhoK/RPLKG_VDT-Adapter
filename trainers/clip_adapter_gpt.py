@@ -345,7 +345,7 @@ class CLIP_Adapter_gpt(TrainerX):
 
     def build_model(self):
         cfg = self.cfg
-        classnames = self.dm.dataset.classnames
+        classnames = self.dm.dataset._classnames
         ##
         print("=== classnames ===")
         for c in classnames:
