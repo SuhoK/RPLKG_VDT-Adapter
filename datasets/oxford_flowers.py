@@ -70,7 +70,7 @@ class OxfordFlowers(DatasetBase):
             items = []
             for idx in indices:
                 i = int(idx) - 1  # MATLAB index
-                imname = f"Image_{str(i+1).zfill(5)}.jpg"
+                imname = f"image_{str(i+1).zfill(5)}.jpg"
                 impath = os.path.join(self.image_dir, imname)
                 if not os.path.isfile(impath):
                     print(f"[Missing file] {impath}")
