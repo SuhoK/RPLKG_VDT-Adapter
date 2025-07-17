@@ -24,12 +24,13 @@ class OxfordFlowers(DatasetBase):
         mkdir_if_missing(self.split_fewshot_dir)
 
 
-        if os.path.exists(self.split_path):
-            train, val, test = OxfordPets.read_split(self.split_path, self.image_dir)
-        else:
-            train, val, test = self.read_data()
-            OxfordPets.save_split(train, val, test, self.split_path, self.image_dir)
-
+        #if os.path.exists(self.split_path):
+        #    train, val, test = OxfordPets.read_split(self.split_path, self.image_dir)
+        #else:
+        #    train, val, test = self.read_data()
+        #    OxfordPets.save_split(train, val, test, self.split_path, self.image_dir)
+        train, val, test = self.read_data()
+        
         num_shots = cfg.DATASET.NUM_SHOTS
         if num_shots >= 1:
             seed = cfg.SEED
