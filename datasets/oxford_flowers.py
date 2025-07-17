@@ -30,7 +30,7 @@ class OxfordFlowers(DatasetBase):
         #    train, val, test = OxfordPets.read_split(self.split_path, self.image_dir)
         #else:
         #    train, val, test = self.read_data()
-        #    OxfordPets.save_split(train, val, test, self.split_path, self.image_dir)
+        OxfordPets.save_split(train, val, test, self.split_path, self.image_dir)
 
         num_shots = cfg.DATASET.NUM_SHOTS
         if num_shots >= 1:
