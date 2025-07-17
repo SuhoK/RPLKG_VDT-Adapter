@@ -275,27 +275,54 @@ class CustomCLIP(nn.Module):
             print('gpt4 sentences ', gpt4_sentences)
             
             attr = []
-            # now get the text features for all the gpt4 sentences
             for cl in classnames:
-                # need to include code for all datasets, some dont need the folowing line
-                if cfg.DATASET.NAME in ['OxfordFlowers', 'StanfordCars', 'EuroSAT']:
-                    pass
+                orig_key = cl.lower()
+            
+                # 일부 dataset은 key 변환이 필요
+                if cfg.DATASET.NAME not in ['OxfordFlowers', 'StanfordCars', 'EuroSAT']:
+                    key = '_'.join(cl.split(' ')).lower()
                 else:
-                    cl = '_'.join(cl.split(' '))
-                current_sentences = gpt4_sentences[cl.lower()]
+                    key = orig_key
+            
+                if key not in gpt4_sentences:
+                    print(f"⚠️ GPT prompt missing: {key}, using fallback: 'A photo of a {cl}.'")
+                    current_sentences = [f"A photo of a {cl}."]
+                else:
+                    current_sentences = gpt4_sentences[key]
+            
                 current_sentences = torch.cat([clip.tokenize(c) for c in current_sentences])
                 current_sentences = current_sentences.to('cuda')
                 clip_model = clip_model.to('cuda')
+            
                 with torch.no_grad():
                     current_text_features = clip_model.encode_text(current_sentences)
                     attr.append(current_text_features)
+            
             attr = torch.stack(attr)
-            #self.register_buffer('attr', attr.cpu()) #self.attr = attr
             if hasattr(self, 'attr'):
                 delattr(self, 'attr')
             self.register_buffer('attr', attr.cpu())
+            # now get the text features for all the gpt4 sentences
+#            for cl in classnames:
+                # need to include code for all datasets, some dont need the folowing line
+#                if cfg.DATASET.NAME in ['OxfordFlowers', 'StanfordCars', 'EuroSAT']:
+#                    pass
+#                else:
+#                    cl = '_'.join(cl.split(' '))
+#                current_sentences = gpt4_sentences[cl.lower()]
+#                current_sentences = torch.cat([clip.tokenize(c) for c in current_sentences])
+#                current_sentences = current_sentences.to('cuda')
+#                clip_model = clip_model.to('cuda')
+#                with torch.no_grad():
+#                    current_text_features = clip_model.encode_text(current_sentences)
+#                    attr.append(current_text_features)
+#            attr = torch.stack(attr)
+            #self.register_buffer('attr', attr.cpu()) #self.attr = attr
+#            if hasattr(self, 'attr'):
+#                delattr(self, 'attr')
+#            self.register_buffer('attr', attr.cpu())
 
-        self.we_adapter = we_adapter
+#        self.we_adapter = we_adapter
 
 
             
@@ -346,6 +373,14 @@ class CLIP_Adapter_gpt(TrainerX):
     def build_model(self):
         cfg = self.cfg
         classnames = self.dm.dataset.classnames
+        ##
+        print("=== classnames ===")
+        for c in classnames:
+            print(c)
+        gpt4_sentences = torch.load(f'./gpt4_data/{gpt4_filename[cfg.DATASET.NAME]}')
+        missing = [c.lower() for c in classnames if c.lower() not in gpt4_sentences]
+        print("❌ Missing in GPT4 prompts:", missing)
+        ##
         print('class names length ', len(classnames))
 
         print(f'Loading CLIP (backbone: {cfg.MODEL.BACKBONE.NAME})')
