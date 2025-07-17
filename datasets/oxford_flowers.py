@@ -21,10 +21,11 @@ class OxfordFlowers(DatasetBase):
         self.lab2cname_file = os.path.join(self.dataset_dir, "cat_to_name.json")
 
         label_file = loadmat(self.label_file)["labels"][0]
+        
         lab2cname = read_json(self.lab2cname_file)
+        classnames = [lab2cname[str(i+1)] for i in range(len(lab2cname))]
+        self._classnames = classnames
 
-        #classnames = sorted({lab2cname[str(label)] for label in label_file})
-        #self._classnames = classnames
         self.split_path = os.path.join(self.dataset_dir, "split_zhou_OxfordFlowers.json")
         self.split_fewshot_dir = os.path.join(self.dataset_dir, "split_fewshot")
         mkdir_if_missing(self.split_fewshot_dir)
