@@ -19,10 +19,6 @@ class OxfordFlowers(DatasetBase):
         self.image_dir = os.path.join(self.dataset_dir, "jpg")
         self.label_file = os.path.join(self.dataset_dir, "imagelabels.mat")
         self.lab2cname_file = os.path.join(self.dataset_dir, "cat_to_name.json")
-        print("lab2cname_file 경로 확인:", self.lab2cname_file)
-        print("존재 여부:", os.path.exists(self.lab2cname_file))
-        print("label_file 경로 확인:", self.label_file)
-        print("존재 여부:", os.path.exists(self.label_file))
         self.split_path = os.path.join(self.dataset_dir, "split_zhou_OxfordFlowers.json")
         self.split_fewshot_dir = os.path.join(self.dataset_dir, "split_fewshot")
         mkdir_if_missing(self.split_fewshot_dir)
@@ -58,33 +54,54 @@ class OxfordFlowers(DatasetBase):
         super().__init__(train_x=train, val=val, test=test)
 
     def read_data(self):
+        #----------------------------#
+        label_file = loadmat(self.label_file)["labels"][0]
+        split_file = loadmat(os.path.join(self.dataset_dir, "setid.mat"))
+        
+        # 파일명 생성 함수
+        def get_imname(i):
+            return f"image_{str(i).zfill(5)}.jpg"
+        
+        # 클래스명 로드
+        lab2cname = read_json(self.lab2cname_file)
+
         def _collate(folder, label_offset=0):
             items = []
-            lab2cname = read_json(self.lab2cname_file)
-            classnames = sorted(os.listdir(folder))
-            for class_idx, cname in enumerate(classnames):
-                class_folder = os.path.join(folder, cname)
-                if not os.path.isdir(class_folder):
-                    continue
-                images = sorted(os.listdir(class_folder))
-                for imname in images:
-                    impath = os.path.join(class_folder, imname)
-                    if os.path.isfile(impath):
-                        items.append(Datum(impath=impath, label=class_idx + label_offset, classname=cname))
+            for idx in indices:
+                i = int(idx) - 1  # MATLAB index는 1-based
+                imname = get_imname(i + 1)
+                impath = os.path.join(self.image_dir, imname)
+                label = int(label_file[i])
+                cname = lab2cname.get(str(label), "unknown")
+                items.append(Datum(impath=impath, label=label - 1, classname=cname))
             return items
-    
-        
-        trainval_items = _collate(os.path.join(self.dataset_dir, "train"))
-        
-        
-        random.seed(42)  # reproducibility
-        random.shuffle(trainval_items)
-        n_total = len(trainval_items)
-        n_val = int(n_total * 0.2)
-        val = trainval_items[:n_val]
-        train = trainval_items[n_val:]
-    
-        
-        test = _collate(os.path.join(self.dataset_dir, "test"))
-    
+        train = _collate(split_file["trnid"][0])
+        val = _collate(split_file["valid"][0])
+        test = _collate(split_file["tstid"][0])
+
         return train, val, test
+            #lab2cname = read_json(self.lab2cname_file)
+            #classnames = sorted(os.listdir(folder))
+            #for class_idx, cname in enumerate(classnames):
+            #    class_folder = os.path.join(folder, cname)
+            #    if not os.path.isdir(class_folder):
+            #        continue
+            #    images = sorted(os.listdir(class_folder))
+            #    for imname in images:
+            #        impath = os.path.join(class_folder, imname)
+            #        if os.path.isfile(impath):
+            #            items.append(Datum(impath=impath, label=class_idx + label_offset, classname=cname))
+            #return items
+    
+        
+        #trainval_items = _collate(os.path.join(self.dataset_dir, "train"))
+        
+        #random.seed(42)  # reproducibility
+        #random.shuffle(trainval_items)
+        #n_total = len(trainval_items)
+        #n_val = int(n_total * 0.2)
+        #val = trainval_items[:n_val]
+        #train = trainval_items[n_val:]
+        #test = _collate(os.path.join(self.dataset_dir, "test"))
+    
+        #return train, val, test
