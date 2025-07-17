@@ -66,7 +66,7 @@ class OxfordFlowers(DatasetBase):
         #    return f"image_{str(i).zfill(5)}.jpg"
 
         #def _collate(folder, label_offset=0):
-        def _collate(folder, indices):
+        def _collate(indices):
             items = []
             for idx in indices:
                 i = int(idx) - 1  # MATLAB index
@@ -79,11 +79,7 @@ class OxfordFlowers(DatasetBase):
                 cname = lab2cname.get(str(label), "unknown")
                 items.append(Datum(impath=impath, label=label - 1, classname=cname))
             return items
-                #impath = os.path.join(self.image_dir, imname)
-                #label = int(label_file[i])
-                #cname = lab2cname.get(str(label), "unknown")
-                #items.append(Datum(impath=impath, label=label - 1, classname=cname))
-            #return items
+            
         train = _collate(split_file["trnid"][0])
         val   = _collate(split_file["valid"][0])
         test  = _collate(split_file["tstid"][0])
