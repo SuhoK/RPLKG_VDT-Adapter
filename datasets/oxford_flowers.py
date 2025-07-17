@@ -58,25 +58,30 @@ class OxfordFlowers(DatasetBase):
         #----------------------------#
         label_file = loadmat(self.label_file)["labels"][0]
         split_file = loadmat(os.path.join(self.dataset_dir, "setid.mat"))
-        
-        # 파일명 생성 함수
-        def get_imname(i):
-            return f"image_{str(i).zfill(5)}.jpg"
-        
-        # 클래스명 로드
         lab2cname = read_json(self.lab2cname_file)
+        
+        #def get_imname(i):
+        #    return f"image_{str(i).zfill(5)}.jpg"
 
         #def _collate(folder, label_offset=0):
         def _collate(indices):
             items = []
             for idx in indices:
-                i = int(idx) - 1  # MATLAB index는 1-based
-                imname = get_imname(i + 1)
+                i = int(idx) #- 1  # MATLAB index
+                imname = f"Image_{i}.jpg" #imname = get_imname(i + 1)
                 impath = os.path.join(self.image_dir, imname)
-                label = int(label_file[i])
+                label = int(label_file[i - 1])  # Python index는 0-based
                 cname = lab2cname.get(str(label), "unknown")
+                if not os.path.isfile(impath):
+                    print(f"[MISSING FILE] {impath}")
+                    continue
                 items.append(Datum(impath=impath, label=label - 1, classname=cname))
             return items
+                #impath = os.path.join(self.image_dir, imname)
+                #label = int(label_file[i])
+                #cname = lab2cname.get(str(label), "unknown")
+                #items.append(Datum(impath=impath, label=label - 1, classname=cname))
+            #return items
         train = _collate(split_file["trnid"][0])
         val = _collate(split_file["valid"][0])
         test = _collate(split_file["tstid"][0])
