@@ -21,11 +21,13 @@ class OxfordFlowers(DatasetBase):
         self.image_dir = os.path.join(self.dataset_dir, "jpg")
         self.label_file = os.path.join(self.dataset_dir, "imagelabels.mat")
         self.lab2cname_file = os.path.join(self.dataset_dir, "cat_to_name.json")
+        print("lab2cname_file 경로 확인:", self.lab2cname_file)
+        print("존재 여부:", os.path.exists(self.lab2cname_file))
+        print("label_file 경로 확인:", self.label_file)
+        print("존재 여부:", os.path.exists(self.label_file))
         self.split_path = os.path.join(self.dataset_dir, "split_zhou_OxfordFlowers.json")
         self.split_fewshot_dir = os.path.join(self.dataset_dir, "split_fewshot")
         mkdir_if_missing(self.split_fewshot_dir)
-        print("lab2cname_file 경로 확인:", self.lab2cname_file)
-        print("존재 여부:", os.path.exists(self.lab2cname_file))
 
 
         if os.path.exists(self.split_path):
