@@ -17,10 +17,15 @@ class OxfordFlowers(DatasetBase):
         root = os.path.abspath(os.path.expanduser(cfg.DATASET.ROOT))
         self.dataset_dir = root #self.dataset_dir = os.path.join(root, self.dataset_dir)
         self.image_dir = os.path.join(self.dataset_dir, "jpg")
-        #self.train_dir = os.path.join(self.dataset_dir, "train")
-        #self.test_dir = os.path.join(self.dataset_dir, "test")
         self.label_file = os.path.join(self.dataset_dir, "imagelabels.mat")
         self.lab2cname_file = os.path.join(self.dataset_dir, "cat_to_name.json")
+
+        label_file = loadmat(self.label_file)["labels"][0]
+        lab2cname = read_json(self.lab2cname_file)
+
+        classnames = sorted({lab2cname[str(label)] for label in label_file})
+        self.classnames = classnames
+        print("명시적으로 생성된 클래스명: ", self.classnames)
         self.split_path = os.path.join(self.dataset_dir, "split_zhou_OxfordFlowers.json")
         self.split_fewshot_dir = os.path.join(self.dataset_dir, "split_fewshot")
         mkdir_if_missing(self.split_fewshot_dir)
