@@ -84,7 +84,10 @@ class OxfordFlowers(DatasetBase):
         train = _collate(split_file["trnid"][0])
         val   = _collate(split_file["valid"][0])
         test  = _collate(split_file["tstid"][0])
-        self._classnames = [lab2cname[str(i)] for i in sorted(set(label_file))]
+        self._classnames = [lab2cname[str(i)]                 
+                            for i in sorted(lab2cname,        
+                                            key=lambda x: int(x))]
+
 
         return train, val, test
 
