@@ -23,9 +23,8 @@ class OxfordFlowers(DatasetBase):
         label_file = loadmat(self.label_file)["labels"][0]
         lab2cname = read_json(self.lab2cname_file)
 
-        classnames = sorted({lab2cname[str(label)] for label in label_file})
-        self._classnames = classnames
-        print("명시적으로 생성된 클래스명: ", self.classnames)
+        #classnames = sorted({lab2cname[str(label)] for label in label_file})
+        #self._classnames = classnames
         self.split_path = os.path.join(self.dataset_dir, "split_zhou_OxfordFlowers.json")
         self.split_fewshot_dir = os.path.join(self.dataset_dir, "split_fewshot")
         mkdir_if_missing(self.split_fewshot_dir)
@@ -88,7 +87,7 @@ class OxfordFlowers(DatasetBase):
         train = _collate(split_file["trnid"][0])
         val   = _collate(split_file["valid"][0])
         test  = _collate(split_file["tstid"][0])
-
+        self._classnames = [lab2cname[str(i)] for i in sorted(set(label_file))]
 
         return train, val, test
             #lab2cname = read_json(self.lab2cname_file)
