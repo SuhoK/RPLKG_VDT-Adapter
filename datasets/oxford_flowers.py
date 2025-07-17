@@ -24,6 +24,9 @@ class OxfordFlowers(DatasetBase):
         self.split_path = os.path.join(self.dataset_dir, "split_zhou_OxfordFlowers.json")
         self.split_fewshot_dir = os.path.join(self.dataset_dir, "split_fewshot")
         mkdir_if_missing(self.split_fewshot_dir)
+        print("lab2cname_file 경로 확인:", self.lab2cname_file)
+        print("존재 여부:", os.path.exists(self.lab2cname_file))
+
 
         if os.path.exists(self.split_path):
             train, val, test = OxfordPets.read_split(self.split_path, self.image_dir)
