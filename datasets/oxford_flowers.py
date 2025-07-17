@@ -16,9 +16,9 @@ class OxfordFlowers(DatasetBase):
     def __init__(self, cfg):
         root = os.path.abspath(os.path.expanduser(cfg.DATASET.ROOT))
         self.dataset_dir = root #self.dataset_dir = os.path.join(root, self.dataset_dir)
-        #self.image_dir = os.path.join(self.dataset_dir, "jpg")
-        self.train_dir = os.path.join(self.dataset_dir, "train")
-        self.test_dir = os.path.join(self.dataset_dir, "test")
+        self.image_dir = os.path.join(self.dataset_dir, "jpg")
+        #self.train_dir = os.path.join(self.dataset_dir, "train")
+        #self.test_dir = os.path.join(self.dataset_dir, "test")
         self.label_file = os.path.join(self.dataset_dir, "imagelabels.mat")
         self.lab2cname_file = os.path.join(self.dataset_dir, "cat_to_name.json")
         self.split_path = os.path.join(self.dataset_dir, "split_zhou_OxfordFlowers.json")
@@ -70,8 +70,8 @@ class OxfordFlowers(DatasetBase):
             items = []
             for idx in indices:
                 i = int(idx) - 1  # MATLAB index
-                imname = f"Image_{i+1}.jpg" #imname = get_imname(i + 1)
-                impath = os.path.join(folder, imname)
+                imname = f"Image_{str(i+1).zfill(5)}.jpg"
+                impath = os.path.join(self.image_dir, imname)
                 if not os.path.isfile(impath):
                     print(f"[Missing file] {impath}")
                     continue
@@ -84,9 +84,9 @@ class OxfordFlowers(DatasetBase):
                 #cname = lab2cname.get(str(label), "unknown")
                 #items.append(Datum(impath=impath, label=label - 1, classname=cname))
             #return items
-        train = _collate(self.train_dir, split_file["trnid"][0])
-        val   = _collate(self.train_dir, split_file["valid"][0])
-        test  = _collate(self.test_dir, split_file["tstid"][0])
+        train = _collate(split_file["trnid"][0])
+        val   = _collate(split_file["valid"][0])
+        test  = _collate(split_file["tstid"][0])
 
 
         return train, val, test
