@@ -275,54 +275,27 @@ class CustomCLIP(nn.Module):
             print('gpt4 sentences ', gpt4_sentences)
             
             attr = []
+            # now get the text features for all the gpt4 sentences
             for cl in classnames:
-                orig_key = cl.lower()
-            
-                # 일부 dataset은 key 변환이 필요
-                if cfg.DATASET.NAME not in ['OxfordFlowers', 'StanfordCars', 'EuroSAT']:
-                    key = '_'.join(cl.split(' ')).lower()
+                # need to include code for all datasets, some dont need the folowing line
+                if cfg.DATASET.NAME in ['OxfordFlowers', 'StanfordCars', 'EuroSAT']:
+                    pass
                 else:
-                    key = orig_key
-            
-                if key not in gpt4_sentences:
-                    print(f"⚠️ GPT prompt missing: {key}, using fallback: 'A photo of a {cl}.'")
-                    current_sentences = [f"A photo of a {cl}."]
-                else:
-                    current_sentences = gpt4_sentences[key]
-            
+                    cl = '_'.join(cl.split(' '))
+                current_sentences = gpt4_sentences[cl.lower()]
                 current_sentences = torch.cat([clip.tokenize(c) for c in current_sentences])
                 current_sentences = current_sentences.to('cuda')
                 clip_model = clip_model.to('cuda')
-            
                 with torch.no_grad():
                     current_text_features = clip_model.encode_text(current_sentences)
                     attr.append(current_text_features)
-            
             attr = torch.stack(attr)
+            #self.register_buffer('attr', attr.cpu()) #self.attr = attr
             if hasattr(self, 'attr'):
                 delattr(self, 'attr')
             self.register_buffer('attr', attr.cpu())
-            # now get the text features for all the gpt4 sentences
-#            for cl in classnames:
-                # need to include code for all datasets, some dont need the folowing line
-#                if cfg.DATASET.NAME in ['OxfordFlowers', 'StanfordCars', 'EuroSAT']:
-#                    pass
-#                else:
-#                    cl = '_'.join(cl.split(' '))
-#                current_sentences = gpt4_sentences[cl.lower()]
-#                current_sentences = torch.cat([clip.tokenize(c) for c in current_sentences])
-#                current_sentences = current_sentences.to('cuda')
-#                clip_model = clip_model.to('cuda')
-#                with torch.no_grad():
-#                    current_text_features = clip_model.encode_text(current_sentences)
-#                    attr.append(current_text_features)
-#            attr = torch.stack(attr)
-            #self.register_buffer('attr', attr.cpu()) #self.attr = attr
-#            if hasattr(self, 'attr'):
-#                delattr(self, 'attr')
-#            self.register_buffer('attr', attr.cpu())
 
-#        self.we_adapter = we_adapter
+        self.we_adapter = we_adapter
 
 
             
