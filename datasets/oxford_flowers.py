@@ -66,7 +66,8 @@ class OxfordFlowers(DatasetBase):
         # 클래스명 로드
         lab2cname = read_json(self.lab2cname_file)
 
-        def _collate(folder, label_offset=0):
+        #def _collate(folder, label_offset=0):
+        def _collate(indices):
             items = []
             for idx in indices:
                 i = int(idx) - 1  # MATLAB index는 1-based
