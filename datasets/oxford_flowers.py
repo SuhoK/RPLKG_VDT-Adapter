@@ -66,10 +66,6 @@ class OxfordFlowers(DatasetBase):
         split_file = loadmat(os.path.join(self.dataset_dir, "setid.mat"))
         lab2cname = read_json(self.lab2cname_file)
         
-        #def get_imname(i):
-        #    return f"image_{str(i).zfill(5)}.jpg"
-
-        #def _collate(folder, label_offset=0):
         def _collate(indices):
             items = []
             for idx in indices:
@@ -80,7 +76,7 @@ class OxfordFlowers(DatasetBase):
                     print(f"[Missing file] {impath}")
                     continue
                 label = int(label_file[i])
-                cname = lab2cname.get(str(label), "unknown")
+                cname = lab2cname[str(label)] #cname = lab2cname.get(str(label), "unknown")
                 items.append(Datum(impath=impath, label=label - 1, classname=cname))
             return items
             
@@ -90,6 +86,11 @@ class OxfordFlowers(DatasetBase):
         self._classnames = [lab2cname[str(i)] for i in sorted(set(label_file))]
 
         return train, val, test
+
+    @property
+    def classnames(self):
+        return self._classnames
+
             #lab2cname = read_json(self.lab2cname_file)
             #classnames = sorted(os.listdir(folder))
             #for class_idx, cname in enumerate(classnames):
