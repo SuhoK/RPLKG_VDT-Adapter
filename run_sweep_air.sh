@@ -11,13 +11,14 @@ TOPK=5
 # GPU list
 GPUS=(0 1 2 3)
 NUM_GPUS=${#GPUS[@]}
-#add
-job_idx=0 
+MAX_JOBS_PER_GPU=1
 
-#gpu_id=${GPUS[$((job_idx % NUM_GPUS))]}
+declare -A GPU_JOB_COUNT
+for gpu_id in "${GPUS[@]}"; do
+    GPU_JOB_COUNT[$gpu_id]=0
+done
 
-# Define parameter combinations per shot
-declare -A SWEEP_PARAMS
+job_idx=0
 
 # === 1-shot ===
 SWEEP_PARAMS[1]="cosine 3 1e-5 0.2 linear linear 70 0.01
@@ -78,33 +79,53 @@ do
   while IFS= read -r line; do
     read -r scheduler warmup cons_lr ratio adapter warmup_type max_epoch weight_decay <<< "$line"
 
-    gpu_id=${GPUS[$((job_idx % NUM_GPUS))]}
-    #add
-    ((job_idx++))
-    TIME=$(date +%F_%H-%M-%S)
-    OUTDIR=output/${DATASET}_grid_search/shots_${SHOTS}/${scheduler}_warm${warmup}_clr${cons_lr}_r${ratio}_${adapter}_wu${warmup_type}_ep${max_epoch}_wd${weight_decay}_${TIME}
-    mkdir -p ${OUTDIR}
+    # 사용 가능한 GPU가 생길 때까지 기다리기
+    while true; do
+      for gpu_id in "${GPUS[@]}"; do
+        # 현재 GPU에 job이 MAX_JOBS_PER_GPU 이하인 경우 선택
+        if [ ${GPU_JOB_COUNT[$gpu_id]} -lt $MAX_JOBS_PER_GPU ]; then
+          GPU_JOB_COUNT[$gpu_id]=$((GPU_JOB_COUNT[$gpu_id]+1))
 
-    echo "[GPU $gpu_id STARTING] Shots=${SHOTS}, Scheduler=${scheduler}, Warmup=${warmup}, CLR=${cons_lr}, Ratio=${ratio}, Adapter=${adapter}"
+          TIME=$(date +%F_%H-%M-%S)
+          OUTDIR=output/${DATASET}_grid_search/shots_${SHOTS}/${scheduler}_warm${warmup}_clr${cons_lr}_r${ratio}_${adapter}_wu${warmup_type}_ep${max_epoch}_wd${weight_decay}_${TIME}
+          mkdir -p ${OUTDIR}
 
-    CUDA_VISIBLE_DEVICES=${gpu_id} python train.py \
-      --root ${DATA} \
-      --seed ${SEED} \
-      --trainer ${TRAINER} \
-      --dataset-config-file configs/datasets/${DATASET}.yaml \
-      --config-file configs/trainers/${TRAINER}/${CFG}.yaml \
-      --output-dir ${OUTDIR} \
-      OPTIM.NAME adam \
-      OPTIM.LR_SCHEDULER ${scheduler} \
-      OPTIM.WARMUP_EPOCH ${warmup} \
-      OPTIM.WARMUP_CONS_LR ${cons_lr} \
-      OPTIM.WARMUP_TYPE ${warmup_type} \
-      OPTIM.MAX_EPOCH ${max_epoch} \
-      OPTIM.WEIGHT_DECAY ${weight_decay} \
-      TRAINER.CLIP_ADAPTER.RATIO ${ratio} \
-      TRAINER.CLIP_ADAPTER.WORD_ADAPTER_TYPE ${adapter} \
-      DATASET.NUM_SHOTS ${SHOTS} \
-      > ${OUTDIR}/log.txt 2>&1 &
+          echo "[GPU $gpu_id STARTING] Shots=${SHOTS}, Scheduler=${scheduler}, Warmup=${warmup}, CLR=${cons_lr}, Ratio=${ratio}, Adapter=${adapter}"
+
+          (
+          CUDA_VISIBLE_DEVICES=${gpu_id} \
+          PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
+          python train.py \
+            --root ${DATA} \
+            --seed ${SEED} \
+            --trainer ${TRAINER} \
+            --dataset-config-file configs/datasets/${DATASET}.yaml \
+            --config-file configs/trainers/${TRAINER}/${CFG}.yaml \
+            --output-dir ${OUTDIR} \
+            OPTIM.NAME adam \
+            OPTIM.LR_SCHEDULER ${scheduler} \
+            OPTIM.WARMUP_EPOCH ${warmup} \
+            OPTIM.WARMUP_CONS_LR ${cons_lr} \
+            OPTIM.WARMUP_TYPE ${warmup_type} \
+            OPTIM.MAX_EPOCH ${max_epoch} \
+            OPTIM.WEIGHT_DECAY ${weight_decay} \
+            TRAINER.CLIP_ADAPTER.RATIO ${ratio} \
+            TRAINER.CLIP_ADAPTER.WORD_ADAPTER_TYPE ${adapter} \
+            DATASET.NUM_SHOTS ${SHOTS} \
+            > ${OUTDIR}/log.txt 2>&1
+
+          # 종료되면 job 수 감소
+          GPU_JOB_COUNT[$gpu_id]=$((GPU_JOB_COUNT[$gpu_id]-1))
+          ) &
+
+          # 다음 sweep 줄로 이동
+          break 2
+        fi
+      done
+
+      # GPU가 모두 바쁘면 10초 기다리기
+      sleep 10
+    done
 
   done <<< "${SWEEP_PARAMS[$SHOTS]}"
 done
