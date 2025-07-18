@@ -11,6 +11,7 @@ TOPK=5
 # GPU list
 GPUS=(0 1 2 3)
 NUM_GPUS=${#GPUS[@]}
+job_idx=0
 #MAX_JOBS_PER_GPU=1
 MIN_FREE_MEM=3000
 
@@ -87,7 +88,8 @@ cosine 15 1e-4 0.8 self_attn linear 130 0.005"
 for SHOTS in 1 2 4 8 16; do
   while IFS= read -r line; do
     read -r scheduler warmup cons_lr ratio adapter warmup_type max_epoch weight_decay <<< "$line"
-
+    gpu_id=${GPUS[$((job_idx % NUM_GPUS))]}
+    ((job_idx++))
     while true; do
       gpu_id=$(get_free_gpu)
 
