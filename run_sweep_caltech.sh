@@ -4,7 +4,7 @@
 DATA="/home/shkang/VDT_Project/data/caltech-101"
 CFG="vit_l14"
 TRAINER="CLIP_Adapter_gpt"
-DATASET="caltech101"
+DATASET="caltech-101"
 SEED=1
 TOPK=5
 
