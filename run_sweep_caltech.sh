@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # === Editable Configurations ===
-DATA="/home/shkang/VDT_Project/data/flowers102"
+DATA="/home/shkang/VDT_Project/data/caltech-101"
 CFG="vit_l14"
 TRAINER="CLIP_Adapter_gpt"
-DATASET="oxford_flowers"
+DATASET="caltech101"
 SEED=1
 TOPK=5
 
