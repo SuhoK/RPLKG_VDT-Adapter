@@ -11,8 +11,10 @@ TOPK=5
 # GPU list
 GPUS=(0 1 2 3)
 NUM_GPUS=${#GPUS[@]}
+#add
+job_idx=0 
 
-gpu_id=${GPUS[$((job_idx % NUM_GPUS))]}
+#gpu_id=${GPUS[$((job_idx % NUM_GPUS))]}
 
 # Define parameter combinations per shot
 declare -A SWEEP_PARAMS
@@ -77,6 +79,8 @@ do
     read -r scheduler warmup cons_lr ratio adapter warmup_type max_epoch weight_decay <<< "$line"
 
     gpu_id=${GPUS[$((job_idx % NUM_GPUS))]}
+    #add
+    ((job_idx++))
     TIME=$(date +%F_%H-%M-%S)
     OUTDIR=output/${DATASET}_grid_search/shots_${SHOTS}/${scheduler}_warm${warmup}_clr${cons_lr}_r${ratio}_${adapter}_wu${warmup_type}_ep${max_epoch}_wd${weight_decay}_${TIME}
     mkdir -p ${OUTDIR}
