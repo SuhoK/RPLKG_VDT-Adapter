@@ -1,15 +1,15 @@
 #!/bin/bash
 
 # === Editable Configurations ===
-DATA="/home/shkang/VDT_Project/data/flowers102"
+DATA="/home/shkang/VDT_Project/data/stanford_cars"
 CFG="vit_l14"
 TRAINER="CLIP_Adapter_gpt"
-DATASET="oxford_flowers"
+DATASET="stanford_cars"
 SEED=1
 TOPK=5
 
 # GPU list
-GPUS=(0 1 2 3)
+GPUS=(1 2)
 NUM_GPUS=${#GPUS[@]}
 
 gpu_id=${GPUS[$((job_idx % NUM_GPUS))]}
@@ -33,26 +33,26 @@ cosine 10 1e-4 0.5 self_attn linear 100 0.01
 cosine 10 5e-5 0.5 linear constant 100 0.005"
 
 # === 4-shot ===
-# SWEEP_PARAMS[4]="cosine 5 1e-4 0.4 linear linear 90 0.01
-# cosine 7 1e-4 0.5 linear constant 100 0.01
-# cosine 7 1e-4 0.5 linear_residual linear 100 0.005
-# cosine 7 5e-5 0.5 self_attn linear 100 0.01
-# cosine 10 1e-4 0.4 self_attn constant 110 0.01
-# cosine 10 5e-5 0.5 linear_residual linear 110 0.005
-# cosine 10 1e-4 0.6 linear_residual linear 110 0.01"
+SWEEP_PARAMS[4]="cosine 5 1e-4 0.4 linear linear 90 0.01
+cosine 7 1e-4 0.5 linear constant 100 0.01
+cosine 7 1e-4 0.5 linear_residual linear 100 0.005
+cosine 7 5e-5 0.5 self_attn linear 100 0.01
+cosine 10 1e-4 0.4 self_attn constant 110 0.01
+cosine 10 5e-5 0.5 linear_residual linear 110 0.005
+cosine 10 1e-4 0.6 linear_residual linear 110 0.01"
 # 4-shot: add
-SWEEP_PARAMS[4]="cosine 3 5e-6 0.2 linear_residual linear 150 0.01
-linear 5 1e-5 0.5 self_attn linear 100 0.05
-constant 1 5e-4 0.9 linear constant 50 0
-cosine 5 1e-4 0.4 linear_residual linear 80 0.05
-linear 3 1e-6 0.9 self_attn constant 150 0.001
-cosine 1 5e-5 0.2 linear linear 50 0
-constant 3 1e-5 0.5 linear_residual constant 100 0.01
-linear 5 5e-4 0.6 self_attn linear 80 0.05
-cosine 3 1e-6 0.5 linear linear 100 0
-linear 1 1e-4 0.9 linear_residual linear 150 0.001
-constant 3 5e-5 0.4 self_attn constant 80 0.05
-cosine 5 1e-3 0.2 linear linear 50 0.01"
+#SWEEP_PARAMS[4]="cosine 3 5e-6 0.2 linear_residual linear 150 0.01
+#linear 5 1e-5 0.5 self_attn linear 100 0.05
+#constant 1 5e-4 0.9 linear constant 50 0
+#cosine 5 1e-4 0.4 linear_residual linear 80 0.05
+#linear 3 1e-6 0.9 self_attn constant 150 0.001
+#cosine 1 5e-5 0.2 linear linear 50 0
+#constant 3 1e-5 0.5 linear_residual constant 100 0.01
+#linear 5 5e-4 0.6 self_attn linear 80 0.05
+#cosine 3 1e-6 0.5 linear linear 100 0
+#linear 1 1e-4 0.9 linear_residual linear 150 0.001
+#constant 3 5e-5 0.4 self_attn constant 80 0.05
+#cosine 5 1e-3 0.2 linear linear 50 0.01"
 
 
 # === 8-shot ===
@@ -68,36 +68,36 @@ cosine 12 5e-5 0.6 self_attn linear 120 0.01
 cosine 12 1e-4 0.6 linear_residual linear 120 0.005"
 
 # === 16-shot ===
-#SWEEP_PARAMS[16]="cosine 10 5e-5 0.6 linear_residual linear 100 0.01
-#cosine 7 1e-4 0.5 linear_residual constant 100 0.01
-#cosine 7 1e-4 0.6 linear_residual linear 100 0.01
-#cosine 7 1e-5 0.5 linear_residual linear 100 0.01
-#cosine 7 1e-5 0.6 linear_residual constant 100 0.01
-#cosine 10 5e-5 0.6 linear_residual linear 110 0.005
-#cosine 15 1e-4 0.7 self_attn linear 120 0.01
-#cosine 15 5e-5 0.7 self_attn constant 120 0.005
-#cosine 15 5e-5 0.6 linear constant 120 0.01
-#cosine 15 1e-4 0.7 linear_residual linear 120 0.01
-#cosine 15 1e-4 0.8 self_attn linear 130 0.005"
+SWEEP_PARAMS[16]="cosine 10 5e-5 0.6 linear_residual linear 100 0.01
+cosine 7 1e-4 0.5 linear_residual constant 100 0.01
+cosine 7 1e-4 0.6 linear_residual linear 100 0.01
+cosine 7 1e-5 0.5 linear_residual linear 100 0.01
+cosine 7 1e-5 0.6 linear_residual constant 100 0.01
+cosine 10 5e-5 0.6 linear_residual linear 110 0.005
+cosine 15 1e-4 0.7 self_attn linear 120 0.01
+cosine 15 5e-5 0.7 self_attn constant 120 0.005
+cosine 15 5e-5 0.6 linear constant 120 0.01
+cosine 15 1e-4 0.7 linear_residual linear 120 0.01
+cosine 15 1e-4 0.8 self_attn linear 130 0.005"
 
 # 16-shot: add
-SWEEP_PARAMS[16]="linear 5 1e-5 0.7 linear_residual linear 150 0.05
-cosine 3 5e-6 0.5 self_attn constant 100 0.01
-constant 1 5e-4 0.9 linear linear 80 0
-cosine 5 1e-4 0.6 linear_residual linear 100 0.05
-linear 3 5e-5 0.2 self_attn linear 50 0
-cosine 1 1e-3 0.5 linear constant 50 0.01
-constant 3 1e-6 0.9 linear_residual constant 150 0
-linear 5 5e-4 0.2 self_attn linear 100 0.05
-cosine 3 1e-5 0.9 linear linear 150 0.001
-linear 1 5e-6 0.4 linear_residual linear 80 0
-constant 3 1e-4 0.7 self_attn constant 100 0
-cosine 5 5e-5 0.5 linear linear 150 0.01"
+#SWEEP_PARAMS[16]="linear 5 1e-5 0.7 linear_residual linear 150 0.05
+#cosine 3 5e-6 0.5 self_attn constant 100 0.01
+#constant 1 5e-4 0.9 linear linear 80 0
+#cosine 5 1e-4 0.6 linear_residual linear 100 0.05
+#linear 3 5e-5 0.2 self_attn linear 50 0
+#cosine 1 1e-3 0.5 linear constant 50 0.01
+#constant 3 1e-6 0.9 linear_residual constant 150 0
+#linear 5 5e-4 0.2 self_attn linear 100 0.05
+#cosine 3 1e-5 0.9 linear linear 150 0.001
+#linear 1 5e-6 0.4 linear_residual linear 80 0
+#constant 3 1e-4 0.7 self_attn constant 100 0
+#cosine 5 5e-5 0.5 linear linear 150 0.01"
 
 
 
 # === Sweep loop ===
-for SHOTS in 4 16
+for SHOTS in 1 2 4 8 16
 do
   while IFS= read -r line; do
     read -r scheduler warmup cons_lr ratio adapter warmup_type max_epoch weight_decay <<< "$line"
