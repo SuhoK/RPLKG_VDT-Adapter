@@ -18,19 +18,19 @@ gpu_id=${GPUS[$((job_idx % NUM_GPUS))]}
 declare -A SWEEP_PARAMS
 
 # === 1-shot ===
-SWEEP_PARAMS[1]="cosine 3 1e-5 0.2 linear linear 70 0.01
-cosine 5 1e-5 0.3 linear_residual linear 80 0.01
-cosine 5 5e-5 0.3 self_attn linear 90 0.005
-cosine 7 1e-4 0.3 linear_residual constant 90 0.01
-cosine 7 5e-5 0.4 self_attn linear 100 0.01"
+#SWEEP_PARAMS[1]="cosine 3 1e-5 0.2 linear linear 70 0.01
+#cosine 5 1e-5 0.3 linear_residual linear 80 0.01
+#cosine 5 5e-5 0.3 self_attn linear 90 0.005
+#cosine 7 1e-4 0.3 linear_residual constant 90 0.01
+#cosine 7 5e-5 0.4 self_attn linear 100 0.01"
 
 # === 2-shot ===
-SWEEP_PARAMS[2]="cosine 5 1e-5 0.3 linear linear 70 0.01
-cosine 5 5e-5 0.3 self_attn constant 80 0.005
-cosine 7 5e-5 0.4 linear_residual linear 90 0.01
-cosine 7 1e-4 0.4 linear_residual linear 100 0.01
-cosine 10 1e-4 0.5 self_attn linear 100 0.01
-cosine 10 5e-5 0.5 linear constant 100 0.005"
+#SWEEP_PARAMS[2]="cosine 5 1e-5 0.3 linear linear 70 0.01
+#cosine 5 5e-5 0.3 self_attn constant 80 0.005
+#cosine 7 5e-5 0.4 linear_residual linear 90 0.01
+#cosine 7 1e-4 0.4 linear_residual linear 100 0.01
+#cosine 10 1e-4 0.5 self_attn linear 100 0.01
+#cosine 10 5e-5 0.5 linear constant 100 0.005"
 
 # === 4-shot ===
 # SWEEP_PARAMS[4]="cosine 5 1e-4 0.4 linear linear 90 0.01
@@ -56,16 +56,16 @@ cosine 5 1e-3 0.2 linear linear 50 0.01"
 
 
 # === 8-shot ===
-SWEEP_PARAMS[8]="cosine 7 1e-4 0.5 linear linear 100 0.01
-cosine 7 1e-4 0.5 linear_residual linear 100 0.01
-cosine 7 1e-4 0.6 linear_residual constant 100 0.005
-cosine 7 1e-5 0.5 linear_residual constant 100 0.01
-cosine 7 1e-5 0.6 linear_residual linear 100 0.01
-cosine 10 1e-4 0.5 linear_residual linear 110 0.005
-cosine 10 5e-5 0.6 self_attn linear 110 0.01
-cosine 10 1e-4 0.6 self_attn constant 110 0.005
-cosine 12 5e-5 0.6 self_attn linear 120 0.01
-cosine 12 1e-4 0.6 linear_residual linear 120 0.005"
+#SWEEP_PARAMS[8]="cosine 7 1e-4 0.5 linear linear 100 0.01
+#cosine 7 1e-4 0.5 linear_residual linear 100 0.01
+#cosine 7 1e-4 0.6 linear_residual constant 100 0.005
+#cosine 7 1e-5 0.5 linear_residual constant 100 0.01
+#cosine 7 1e-5 0.6 linear_residual linear 100 0.01
+#cosine 10 1e-4 0.5 linear_residual linear 110 0.005
+#cosine 10 5e-5 0.6 self_attn linear 110 0.01
+#cosine 10 1e-4 0.6 self_attn constant 110 0.005
+#cosine 12 5e-5 0.6 self_attn linear 120 0.01
+#cosine 12 1e-4 0.6 linear_residual linear 120 0.005"
 
 # === 16-shot ===
 #SWEEP_PARAMS[16]="cosine 10 5e-5 0.6 linear_residual linear 100 0.01
