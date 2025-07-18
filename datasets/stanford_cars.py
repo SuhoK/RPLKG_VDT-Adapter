@@ -11,11 +11,12 @@ import numpy as np
 @DATASET_REGISTRY.register()
 class StanfordCars(DatasetBase):
 
-    dataset_dir = "stanford_cars"
+    #dataset_dir = "stanford_cars"
 
     def __init__(self, cfg):
         root = os.path.abspath(os.path.expanduser(cfg.DATASET.ROOT))
-        self.dataset_dir = os.path.join(root, self.dataset_dir)
+        #self.dataset_dir = os.path.join(root, self.dataset_dir)
+        self.dataset_dir = root
         self.split_path = os.path.join(self.dataset_dir, "split_zhou_StanfordCars.json")
         # self.split_path = os.path.join(self.dataset_dir, "split_zhou_StanfordCars_subset-135.json")
         self.split_fewshot_dir = os.path.join(self.dataset_dir, "split_fewshot")
