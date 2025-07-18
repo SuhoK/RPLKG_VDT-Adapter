@@ -106,7 +106,6 @@ do
       DATASET.NUM_SHOTS ${SHOTS} \
       > ${OUTDIR}/log.txt 2>&1 &
 
-    ((job_idx++))
   done <<< "${SWEEP_PARAMS[$SHOTS]}"
 done
 
