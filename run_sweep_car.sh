@@ -9,7 +9,7 @@ SEED=1
 TOPK=5
 
 # GPU list
-GPUS=(1 2)
+GPUS=(0 1 2 3)
 NUM_GPUS=${#GPUS[@]}
 
 gpu_id=${GPUS[$((job_idx % NUM_GPUS))]}
