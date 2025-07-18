@@ -92,7 +92,7 @@ cosine 10 8e-5 0.7 self_attn linear 120 0.01"
 
 
 # === Sweep loop ===
-for SHOTS in 1 2 4 8 16; do
+#for SHOTS in 1 2 4 8 16; do
 for SHOTS in 16; do
   while IFS= read -r line; do
     read -r scheduler warmup cons_lr ratio adapter warmup_type max_epoch weight_decay <<< "$line"
