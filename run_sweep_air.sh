@@ -67,24 +67,33 @@ cosine 12 5e-5 0.6 self_attn linear 120 0.01
 cosine 12 1e-4 0.6 linear_residual linear 120 0.005"
 
 # === 16-shot ===
-SWEEP_PARAMS[16]="cosine 10 5e-5 0.6 linear_residual linear 100 0.01
-cosine 7 1e-4 0.5 linear_residual constant 100 0.01
-cosine 7 1e-4 0.6 linear_residual linear 100 0.01
-cosine 7 1e-5 0.5 linear_residual linear 100 0.01
-cosine 7 1e-5 0.6 linear_residual constant 100 0.01
-cosine 10 5e-5 0.6 linear_residual linear 110 0.005
-cosine 15 1e-4 0.7 self_attn linear 120 0.01
-cosine 15 5e-5 0.7 self_attn constant 120 0.005
-cosine 15 5e-5 0.6 linear constant 120 0.01
-cosine 15 1e-4 0.7 linear_residual linear 120 0.01
-cosine 15 1e-4 0.8 self_attn linear 130 0.005"
-
+#SWEEP_PARAMS[16]="cosine 10 5e-5 0.6 linear_residual linear 100 0.01
+#cosine 7 1e-4 0.5 linear_residual constant 100 0.01
+#cosine 7 1e-4 0.6 linear_residual linear 100 0.01
+#cosine 7 1e-5 0.5 linear_residual linear 100 0.01
+#cosine 7 1e-5 0.6 linear_residual constant 100 0.01
+#cosine 10 5e-5 0.6 linear_residual linear 110 0.005
+#cosine 15 1e-4 0.7 self_attn linear 120 0.01
+#cosine 15 5e-5 0.7 self_attn constant 120 0.005
+#cosine 15 5e-5 0.6 linear constant 120 0.01
+#cosine 15 1e-4 0.7 linear_residual linear 120 0.01
+#cosine 15 1e-4 0.8 self_attn linear 130 0.005"
+#add
+SWEEP_PARAMS[16]="cosine 7 5e-5 0.6 linear_residual linear 100 0.01
+cosine 7 8e-5 0.6 self_attn linear 100 0.01
+cosine 10 1e-5 0.7 linear_residual constant 120 0.05
+cosine 10 5e-5 0.7 self_attn constant 120 0.05
+cosine 5 8e-5 0.5 linear_residual linear 80 0.01
+cosine 5 1e-5 0.5 self_attn linear 80 0.01
+cosine 7 5e-5 0.6 linear linear 100 0.05
+cosine 10 8e-5 0.7 self_attn linear 120 0.01"
 
 
 
 
 # === Sweep loop ===
 for SHOTS in 1 2 4 8 16; do
+for SHOTS in 16; do
   while IFS= read -r line; do
     read -r scheduler warmup cons_lr ratio adapter warmup_type max_epoch weight_decay <<< "$line"
     
