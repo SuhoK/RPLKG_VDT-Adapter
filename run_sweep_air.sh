@@ -16,15 +16,14 @@ job_idx=0
 MIN_FREE_MEM=3000
 
 # GPU 메모리 확인 함수
-get_free_gpu() {
-  for gpu_id in "${GPUS[@]}"; do
-    free_mem=$(nvidia-smi --query-gpu=memory.free --format=csv,noheader,nounits | sed -n "$((gpu_id+1))p")
-    if [ "$free_mem" -ge "$MIN_FREE_MEM" ]; then
-      echo $gpu_id
-      return 0
-    fi
-  done
-  echo -1
+is_gpu_free() {
+  local gpu_id=$1
+  local free_mem=$(nvidia-smi --query-gpu=memory.free --format=csv,noheader,nounits | sed -n "$((gpu_id+1))p")
+  if [ "$free_mem" -ge "$MIN_FREE_MEM" ]; then
+    return 0 # True (free)
+  else
+    return 1 # False (busy)
+  fi
 }
 
 #declare -A GPU_JOB_COUNT
@@ -88,46 +87,52 @@ cosine 15 1e-4 0.8 self_attn linear 130 0.005"
 for SHOTS in 1 2 4 8 16; do
   while IFS= read -r line; do
     read -r scheduler warmup cons_lr ratio adapter warmup_type max_epoch weight_decay <<< "$line"
-    gpu_id=${GPUS[$((job_idx % NUM_GPUS))]}
+    
+    # 1. 다음 작업에 대한 GPU를 순차적으로 결정
+    target_gpu=${GPUS[$((job_idx % NUM_GPUS))]}
     ((job_idx++))
-    while true; do
-      gpu_id=$(get_free_gpu)
+    
+    echo "Waiting for GPU ${target_gpu} to be free..."
 
-      if [ "$gpu_id" -ge 0 ]; then
-        TIME=$(date +%F_%H-%M-%S)
-        OUTDIR=output/${DATASET}_grid_search/shots_${SHOTS}/${scheduler}_warm${warmup}_clr${cons_lr}_r${ratio}_${adapter}_wu${warmup_type}_ep${max_epoch}_wd${weight_decay}_${TIME}
-        mkdir -p ${OUTDIR}
-
-        echo "[GPU $gpu_id STARTING] Shots=${SHOTS}, Scheduler=${scheduler}, Warmup=${warmup}, CLR=${cons_lr}, Ratio=${ratio}, Adapter=${adapter}"
-
-        CUDA_VISIBLE_DEVICES=${gpu_id} \
-        PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
-        python train.py \
-          --root ${DATA} \
-          --seed ${SEED} \
-          --trainer ${TRAINER} \
-          --dataset-config-file configs/datasets/${DATASET}.yaml \
-          --config-file configs/trainers/${TRAINER}/${CFG}.yaml \
-          --output-dir ${OUTDIR} \
-          OPTIM.NAME adam \
-          OPTIM.LR_SCHEDULER ${scheduler} \
-          OPTIM.WARMUP_EPOCH ${warmup} \
-          OPTIM.WARMUP_CONS_LR ${cons_lr} \
-          OPTIM.WARMUP_TYPE ${warmup_type} \
-          OPTIM.MAX_EPOCH ${max_epoch} \
-          OPTIM.WEIGHT_DECAY ${weight_decay} \
-          TRAINER.CLIP_ADAPTER.RATIO ${ratio} \
-          TRAINER.CLIP_ADAPTER.WORD_ADAPTER_TYPE ${adapter} \
-          DATASET.NUM_SHOTS ${SHOTS} \
-          > ${OUTDIR}/log.txt 2>&1 &
-
-        break
-      else
-        sleep 10
-      fi
+    # 2. 결정된 GPU의 메모리가 확보될 때까지 대기
+    while ! is_gpu_free $target_gpu; do
+      sleep 10
     done
+    
+    # 3. 작업 실행
+    TIME=$(date +%F_%H-%M-%S)
+    OUTDIR=output/${DATASET}_grid_search/shots_${SHOTS}/${scheduler}_warm${warmup}_clr${cons_lr}_r${ratio}_${adapter}_wu${warmup_type}_ep${max_epoch}_wd${weight_decay}_${TIME}
+    mkdir -p ${OUTDIR}
+    
+    echo "[GPU $target_gpu STARTING] Shots=${SHOTS}, Scheduler=${scheduler}, Warmup=${warmup}, CLR=${cons_lr}, Ratio=${ratio}, Adapter=${adapter}"
+    
+    CUDA_VISIBLE_DEVICES=${target_gpu} \
+    PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
+    python train.py \
+      --root ${DATA} \
+      --seed ${SEED} \
+      --trainer ${TRAINER} \
+      --dataset-config-file configs/datasets/${DATASET}.yaml \
+      --config-file configs/trainers/${TRAINER}/${CFG}.yaml \
+      --output-dir ${OUTDIR} \
+      OPTIM.NAME adam \
+      OPTIM.LR_SCHEDULER ${scheduler} \
+      OPTIM.WARMUP_EPOCH ${warmup} \
+      OPTIM.WARMUP_CONS_LR ${cons_lr} \
+      OPTIM.WARMUP_TYPE ${warmup_type} \
+      OPTIM.MAX_EPOCH ${max_epoch} \
+      OPTIM.WEIGHT_DECAY ${weight_decay} \
+      TRAINER.CLIP_ADAPTER.RATIO ${ratio} \
+      TRAINER.CLIP_ADAPTER.WORD_ADAPTER_TYPE ${adapter} \
+      DATASET.NUM_SHOTS ${SHOTS} \
+      > ${OUTDIR}/log.txt 2>&1 &
+
+    # (선택 사항) 다음 작업 할당 전 약간의 딜레이를 주어 메모리 할당 안정성을 높임
+    sleep 5 
+
   done <<< "${SWEEP_PARAMS[$SHOTS]}"
 done
 
 wait
 echo "All sweep jobs finished"
+
