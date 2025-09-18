@@ -1,3 +1,4 @@
 ftfy
 regex
 tqdm
+git+https://github.com/KaiyangZhou/Dassl.pytorch@c61a1b570ac6333bd50fb5ae06aea59002fb20bb
