@@ -1,0 +1,3 @@
+[submodule "vendor/Dassl.pytorch"]
+	path = vendor/Dassl.pytorch
+	url = https://github.com/KaiyangZhou/Dassl.pytorch
