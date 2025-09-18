@@ -272,60 +272,46 @@ class CustomCLIP(nn.Module):
         if we_adapter is not None:
             print(f'Using {we_adapter} adapter')
             gpt4_sentences = torch.load(f'./gpt4_data/{gpt4_filename[cfg.DATASET.NAME]}')
-            # 모든 키를 str(lower)로 통일
-            gpt4_sentences = {str(k).lower(): v for k, v in gpt4_sentences.items()}
-
-            print('gpt4 sentences keys (sample) ', list(gpt4_sentences.keys())[:5])
-
-            # 2) CLIP 모델/디바이스 준비 (루프 바깥에서 1회)
-            device = 'cuda' if torch.cuda.is_available() else 'cpu'
-            clip_model = clip_model.to(device)
-
+            print('gpt4 sentences ', gpt4_sentences)
+            
             attr = []
             for cl in classnames:
-                # 정수/숫자문자 방어
-                cstr = str(cl)
-
-                # OxfordFlowers/StanfordCars/EuroSAT 는 공백 그대로,
-                # 나머지는 기존 로직처럼 공백→언더바로 변환한 키 먼저 시도
+                # (OxfordFlowers·StanfordCars·EuroSAT 는 공백 유지,
+                #  나머지는 기존 로직 대로 '_' 로 join)
                 if cfg.DATASET.NAME not in ['OxfordFlowers', 'StanfordCars', 'EuroSAT']:
-                    primary = '_'.join(cstr.split(' '))
+                    cl_for_lookup = '_'.join(cl.split(' '))
                 else:
-                    primary = cstr
-
-                # 3) 찾을 수 있는 키 후보들을 여러 형태로 시도
-                candidates = [
-                    primary.lower(),
-                    primary.replace('_', ' ').lower(),
-                    primary.replace(' ', '_').lower(),
-                    cstr.lower()
-                ]
-
-                found_key = None
-                for k in candidates:
-                    if k in gpt4_sentences:
-                        found_key = k
-                        break
-
-                # 4) 여전히 못 찾으면 기본 프롬프트로 폴백 (목록 타입이어야 함)
-                if found_key is None:
-                    found_key = candidates[0]
-                    gpt4_sentences[found_key] = [f"a photo of a {cstr}"]
-                    # 참고: 여기서 에러를 내지 않고 채워 넣습니다.
-
-                current_sentences = gpt4_sentences[found_key]
-                # gpt4_sentences 값이 문자열 하나인 경우 대비
-                if isinstance(current_sentences, str):
-                    current_sentences = [current_sentences]
-
-                # 5) 토크나이즈 및 텍스트 임베딩
-                toks = [clip.tokenize(s) for s in current_sentences]
-                current_sentences_tok = torch.cat(toks).to(device)
-
+                    cl_for_lookup = cl
+            
+                key = cl_for_lookup.lower()          # ← 바로 여기!
+            
+                if key not in gpt4_sentences:        # 안전 확인
+                    raise ValueError(f"[GPT prompt 누락] '{key}' 가 gpt4_sentences에 없습니다.")
+            
+                current_sentences = gpt4_sentences[key]
+            
+                # 토크나이즈 및 feature 추출
+                current_sentences = torch.cat([clip.tokenize(c) for c in current_sentences])
+                current_sentences = current_sentences.to('cuda')
+                clip_model = clip_model.to('cuda')
                 with torch.no_grad():
-                    current_text_features = clip_model.encode_text(current_sentences_tok)
-
+                    current_text_features = clip_model.encode_text(current_sentences)
+            
                 attr.append(current_text_features)
+            # now get the text features for all the gpt4 sentences
+#            for cl in classnames:
+                # need to include code for all datasets, some dont need the folowing line
+#                if cfg.DATASET.NAME in ['OxfordFlowers', 'StanfordCars', 'EuroSAT']:
+#                    pass
+#                else:
+#                    cl = '_'.join(cl.split(' '))
+#                current_sentences = gpt4_sentences[cl.lower()]
+#                current_sentences = torch.cat([clip.tokenize(c) for c in current_sentences])
+#                current_sentences = current_sentences.to('cuda')
+#                clip_model = clip_model.to('cuda')
+#                with torch.no_grad():
+#                    current_text_features = clip_model.encode_text(current_sentences)
+#                    attr.append(current_text_features)
             attr = torch.stack(attr)
             #self.register_buffer('attr', attr.cpu()) #self.attr = attr
             if hasattr(self, 'attr'):
